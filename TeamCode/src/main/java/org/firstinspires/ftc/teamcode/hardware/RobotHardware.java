@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.constants.DriveConstants;
 import org.firstinspires.ftc.teamcode.control.Elevator;
 import org.firstinspires.ftc.teamcode.control.MecanumDriveController;
+import org.firstinspires.ftc.teamcode.control.limbs.ElevatorController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,10 @@ public class RobotHardware {
     private Servo unnamedServo5 = null;
     @Getter
     private Servo unnamedServo6 = null;
+    @Getter
+    private DcMotorEx perpendicular = null;
+    @Getter
+    private DcMotorEx parallel = null;
     @Getter
     private Rev2mDistanceSensor sensor1 = null;
     @Getter
@@ -103,6 +108,8 @@ public class RobotHardware {
         leftElevatorMotor = opMode.hardwareMap.get(DcMotorEx.class, "left_elevator");
         rightElevatorMotor = opMode.hardwareMap.get(DcMotorEx.class, "right_elevator");
         intake = opMode.hardwareMap.get(DcMotorEx.class, "intake");
+        parallel = opMode.hardwareMap.get(DcMotorEx.class, "left_front");
+        perpendicular = opMode.hardwareMap.get(DcMotorEx.class, "left_back");
 
         drivetrainMotors.add(leftFrontMotor);
         drivetrainMotors.add(leftBackMotor);
@@ -130,7 +137,7 @@ public class RobotHardware {
 
         setAllMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        setPIDFCoefficients(DcMotor.RunMode.RUN_WITHOUT_ENCODER, DriveConstants.MOTOR_VELO_PID);
+        setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, DriveConstants.MOTOR_VELO_PID);
 
         leftElevatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightElevatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -140,6 +147,8 @@ public class RobotHardware {
 
         leftElevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightElevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        elevatorController = new ElevatorController(this);
     }
 
     public void setAllMode(DcMotor.RunMode runMode) {

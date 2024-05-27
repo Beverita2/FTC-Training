@@ -57,6 +57,9 @@ TeleOpControl extends LinearOpMode implements Drivetrain {
                 debugSecondaryGamepad();
             }
 
+            telemetry.addData("Perpendicular pod pozition",robotHardware.getPerpendicular().getCurrentPosition());
+            telemetry.addData("Parallel pod pozition",robotHardware.getParallel().getCurrentPosition());
+
             telemetry.update();
             mainGamepad.readButtons();
             secondaryGamepad.readButtons();

@@ -37,7 +37,7 @@ public class Base extends TeleOpControl {
         drive(axial, lateral, yaw);
 
         if (mainGamepad.wasJustReleased(GamepadKeys.Button.A)) {
-            setPowerScale(1.25 - getPowerScale());
+            setPowerScale(1.75 - getPowerScale());
         }
 
         double intakePower = secondaryGamepad.getLeftY() * 0.8;
@@ -48,6 +48,5 @@ public class Base extends TeleOpControl {
         robotHardware.getElevatorController().setTarget((int) elevatorTarget);
 
         robotHardware.getElevatorController().update();
-        robotHardware.getMecanumDriveController().update();
     }
 }

@@ -5,10 +5,9 @@ public interface Elevator {
 
     enum ElevatorLevel {
         BASE(0),
-        LOW(37.2),
-        MIDDLE(60.8),
-        HIGH(88),
-        MAX(90);
+        MID(25),
+        HIGH(50),
+        MAX(75);
 
         @Getter
         private double height = 0;

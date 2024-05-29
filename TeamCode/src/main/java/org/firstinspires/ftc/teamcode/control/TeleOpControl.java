@@ -26,6 +26,10 @@ TeleOpControl extends LinearOpMode implements Drivetrain {
         robotHardware.initTeleOp();
         mainGamepad = new GamepadEx(gamepad1);
         secondaryGamepad = new GamepadEx(gamepad2);
+        robotHardware.getServoController().useOutTake(false);
+        robotHardware.getServoController().useGate(false);
+        robotHardware.getServoController().useIntake(false);
+        robotHardware.getServoController().usePlaneLauncher(false);
         if (invertedGamepads) {
             GamepadEx aux = secondaryGamepad;
             secondaryGamepad = mainGamepad;
@@ -140,5 +144,5 @@ TeleOpControl extends LinearOpMode implements Drivetrain {
 
     @Setter
     @Getter
-    private double powerScale = 1;
+    private double powerScale = 0.75;
 }

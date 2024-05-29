@@ -16,6 +16,14 @@ public class DriveConstants {
 
     public static final double ELEVATOR_MAX_RPM = 312;
     public static final double ELEVATOR_MAX_TICKS_PER_SECOND = ELEVATOR_MAX_RPM * ELEVATOR_TICKS_PER_REV / 60;
+    public static final double GATE_OPEN_POSITION  = 1;
+    public static final double GATE_CLOSE_POSITION = 0;
+    public static final double ARM_UP_POSITION  = 1;
+    public static final double ARM_DOWN_POSITION = 0;
+    public static final double BOX_BACKBOARD_POSITION  = 1;
+    public static final double BOX_GROUND_POSITION = 0;
+    public static final double INTAKE_UP_POSITION  = 1;
+    public static final double INTAKE_DOWN_POSITION = 0;
     public static final double PLANE_LAUNCH_POSITION = 1;
     public static final double PLANE_INIT_POSITION = 0;
     public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(25, 0, 4,

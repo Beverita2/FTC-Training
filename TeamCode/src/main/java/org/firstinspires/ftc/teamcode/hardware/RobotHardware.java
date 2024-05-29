@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.constants.DriveConstants;
 import org.firstinspires.ftc.teamcode.control.Elevator;
 import org.firstinspires.ftc.teamcode.control.MecanumDriveController;
 import org.firstinspires.ftc.teamcode.control.limbs.ElevatorController;
+import org.firstinspires.ftc.teamcode.control.limbs.ServoController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,17 +50,13 @@ public class RobotHardware {
     @Getter
     private Servo planeLauncherServo = null;
     @Getter
-    private Servo unnamedServo1 = null;
+    private Servo armServo = null;
     @Getter
-    private Servo unnamedServo2 = null;
+    private Servo boxServo = null;
     @Getter
-    private Servo unnamedServo3 = null;
+    private Servo gateServo = null;
     @Getter
-    private Servo unnamedServo4 = null;
-    @Getter
-    private Servo unnamedServo5 = null;
-    @Getter
-    private Servo unnamedServo6 = null;
+    private Servo intakeServo = null;
     @Getter
     private DcMotorEx perpendicular = null;
     @Getter
@@ -83,6 +80,8 @@ public class RobotHardware {
     private MecanumDriveController mecanumDriveController = null;
     @Getter
     private Elevator elevatorController = null;
+    @Getter
+    private ServoController servoController = null;
 
     public void initLynxModule() {
         batteryVoltageSensor = opMode.hardwareMap.voltageSensor.iterator().next();
@@ -94,7 +93,7 @@ public class RobotHardware {
 
     public void initMecanumDriveController() {
         initDrivetrainMotors();
-        initIMU();
+        initServos();
         mecanumDriveController = new MecanumDriveController(this);
     }
 
@@ -149,6 +148,7 @@ public class RobotHardware {
         rightElevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         elevatorController = new ElevatorController(this);
+        servoController = new ServoController(this);
     }
 
     public void setAllMode(DcMotor.RunMode runMode) {
@@ -175,23 +175,19 @@ public class RobotHardware {
         drivetrainMotors.forEach(dcMotorEx -> dcMotorEx.setPIDFCoefficients(runMode, compensatedCoefficients));
     }
 
-    public void initClaws() {
+    public void initServos() {
 
-        unnamedServo1 = opMode.hardwareMap.get(Servo.class, "unnamedServo1");
-        unnamedServo2 = opMode.hardwareMap.get(Servo.class, "unnamedServo2");
-        unnamedServo3 = opMode.hardwareMap.get(Servo.class, "unnamedServo3");
-        unnamedServo4 = opMode.hardwareMap.get(Servo.class, "unnamedServo4");
-        unnamedServo5 = opMode.hardwareMap.get(Servo.class, "unnamedServo5");
-        unnamedServo6 = opMode.hardwareMap.get(Servo.class, "unnamedServo6");
+        armServo = opMode.hardwareMap.get(Servo.class, "arm");
+        boxServo = opMode.hardwareMap.get(Servo.class, "box");
+        gateServo = opMode.hardwareMap.get(Servo.class, "gate");
+        intakeServo = opMode.hardwareMap.get(Servo.class, "intake");
         planeLauncherServo = opMode.hardwareMap.get(Servo.class, "plane_launcher");
 
+        armServo.scaleRange(0,1);
+        boxServo.scaleRange(0,1);
+        gateServo.scaleRange(0,1);
+        intakeServo.scaleRange(0,1);
         planeLauncherServo.scaleRange(0,1);
-        unnamedServo1.scaleRange(0,1);
-        unnamedServo2.scaleRange(0,1);
-        unnamedServo3.scaleRange(0,1);
-        unnamedServo4.scaleRange(0,1);
-        unnamedServo5.scaleRange(0,1);
-        unnamedServo6.scaleRange(0,1);
     }
 
     public void initSensors() {
@@ -206,11 +202,12 @@ public class RobotHardware {
 
     public void initAutonomous() {
         initMecanumDriveController();
-        //initWebcam();
+        initWebcam();
+        initIMU();
     }
 
     public void initTeleOp() {
-        initDrivetrainMotors();
+        initMecanumDriveController();
     }
 
 

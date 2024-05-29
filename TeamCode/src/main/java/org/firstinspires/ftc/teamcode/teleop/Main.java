@@ -5,10 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.constants.DriveConstants;
+import org.firstinspires.ftc.teamcode.control.Elevator;
 import org.firstinspires.ftc.teamcode.control.TeleOpControl;
 
 @TeleOp(name = "Main", group = "Movement")
-public class Base extends TeleOpControl {
+public class Main extends TeleOpControl {
 
     private static final double ELEVATOR_SCALE = 0.25;
 
@@ -37,11 +38,49 @@ public class Base extends TeleOpControl {
         drive(axial, lateral, yaw);
 
         if (mainGamepad.wasJustReleased(GamepadKeys.Button.A)) {
-            setPowerScale(1.75 - getPowerScale());
+            setPowerScale(1 - getPowerScale());
         }
 
-        double intakePower = secondaryGamepad.getLeftY() * 0.8;
-        robotHardware.getIntake().setPower(intakePower);
+        if(mainGamepad.wasJustReleased(GamepadKeys.Button.RIGHT_BUMPER)){
+            robotHardware.getServoController().useGate();
+        }
+
+        if(secondaryGamepad.wasJustPressed(GamepadKeys.Button.A)){
+            robotHardware.getServoController().useIntake();
+            robotHardware.getServoController().useGate();
+        }
+
+        if(secondaryGamepad.wasJustReleased(GamepadKeys.Button.A)){
+            robotHardware.getServoController().useIntake();
+            robotHardware.getServoController().useGate();
+        }
+
+        if(secondaryGamepad.getButton(GamepadKeys.Button.A)){
+            robotHardware.getIntake().setPower(0.5);
+        }else{
+            robotHardware.getIntake().setPower(0);
+        }
+
+        if(secondaryGamepad.wasJustReleased(GamepadKeys.Button.B)){
+            robotHardware.getServoController().useOutTake();
+        }
+
+        if(secondaryGamepad.wasJustReleased(GamepadKeys.Button.DPAD_DOWN)){
+            robotHardware.getServoController().useOutTake();
+            robotHardware.getElevatorController().setTarget(Elevator.ElevatorLevel.BASE);
+        }
+
+
+        if(secondaryGamepad.wasJustReleased(GamepadKeys.Button.DPAD_LEFT)){
+            robotHardware.getServoController().useOutTake();
+            robotHardware.getElevatorController().setTarget(Elevator.ElevatorLevel.MID);
+        }
+
+
+        if(secondaryGamepad.wasJustReleased(GamepadKeys.Button.DPAD_RIGHT)){
+            robotHardware.getServoController().useOutTake();
+            robotHardware.getElevatorController().setTarget(Elevator.ElevatorLevel.HIGH);
+        }
 
 
         double elevatorTarget = robotHardware.getElevatorController().getTarget() + DriveConstants.elevatorCmToTicks(secondaryGamepad.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) - secondaryGamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)) * ELEVATOR_SCALE;
